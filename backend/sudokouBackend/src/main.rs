@@ -1,6 +1,6 @@
-mod board;
+mod grid;
 
-use board::{SudokuGrid, SudokuError};
+use grid::{SudokuGrid, SudokuError};
 
 fn main() {
     let mut sudoku = SudokuGrid::new();
