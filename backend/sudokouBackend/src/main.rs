@@ -1,6 +1,9 @@
-use serde::{Serialize, Deserialize};
+mod grid;
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+use grid::{SudokuGrid, SudokuError};
+use serde::{Serialize, Deserialize}; // Added serde traits
+
+#[derive(Clone, Debug, Serialize, Deserialize)] // Added serde traits
 struct SudokuGrid {
     data: [[u8; 9]; 9], // 9x9 grid to hold Sudoku numbers
 }
@@ -10,9 +13,9 @@ impl SudokuGrid {
         SudokuGrid { data: [[0; 9]; 9] }
     }
 
-    fn set_number(&mut self, row: usize, col: usize, number: u8) -> Result<(), &'static str> {
+    fn set_number(&mut self, row: usize, col: usize, number: u8) -> Result<(), SudokuError> { // Changed return type to Result
         if !Self::is_valid_position(row, col) {
-            return Err("Invalid position");
+            return Err(SudokuError::InvalidPosition); // Changed error type
         }
         self.data[row][col] = number;
         Ok(())
