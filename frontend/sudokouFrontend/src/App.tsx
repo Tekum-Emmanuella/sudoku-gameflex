@@ -1,5 +1,5 @@
 import React from 'react';
-import Board from './components/grid';
+import Board from './components/board';
 import './components/grid.css';
 
 const App: React.FC = () => {
