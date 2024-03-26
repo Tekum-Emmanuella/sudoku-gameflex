@@ -54,6 +54,50 @@ impl SudokuSessionRepository {
             Ok(None)
         }
     }
+}
 
-    // Other CRUD operations can be implemented here
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_create_session() {
+        // Arrange
+        let db_path = ":memory:"; // Use an in-memory database for testing
+        let mut repo = SudokuSessionRepository::new(db_path).unwrap();
+        let session = SudokuSession {
+            id: 1,
+            player_name: "Arthur".to_string(),
+            game_state: "serialized_game_state".to_string(),
+        };
+
+        // Act
+        let result = repo.create_session(&session);
+
+        // Assert
+        assert!(result.is_ok());
+    }
+
+    #[test]
+    fn test_get_session() {
+        // Arrange
+        let db_path = ":memory:"; // Use an in-memory database for testing
+        let mut repo = SudokuSessionRepository::new(db_path).unwrap();
+        let session = SudokuSession {
+            id: 1,
+            player_name: "Arthur".to_string(),
+            game_state: "serialized_game_state".to_string(),
+        };
+        repo.create_session(&session).unwrap();
+
+        // Act
+        let loaded_session = repo.get_session(1).unwrap();
+
+        // Assert
+        assert!(loaded_session.is_some());
+        let loaded_session = loaded_session.unwrap();
+        assert_eq!(loaded_session.id, session.id);
+        assert_eq!(loaded_session.player_name, session.player_name);
+        assert_eq!(loaded_session.game_state, session.game_state);
+    }
 }
