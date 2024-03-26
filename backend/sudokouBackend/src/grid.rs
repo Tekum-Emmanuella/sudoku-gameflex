@@ -5,7 +5,9 @@ pub struct SudokuGrid {
 
 impl SudokuGrid {
     pub fn new() -> Self {
-        SudokuGrid { data: [[None; 9]; 9] }
+        SudokuGrid {
+            data: [[None; 9]; 9],
+        }
     }
 
     pub fn set_number(&mut self, row: usize, col: usize, number: u8) -> Result<(), SudokuError> {
@@ -13,7 +15,7 @@ impl SudokuGrid {
             return Err(SudokuError::InvalidPosition);
         }
 
-        if number < 1 || number > 9 {
+        if !(1..=9).contains(&number) {
             return Err(SudokuError::InvalidNumber);
         }
 
