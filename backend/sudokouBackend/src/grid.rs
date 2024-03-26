@@ -13,7 +13,7 @@ impl SudokuGrid {
             return Err(SudokuError::InvalidPosition);
         }
 
-        if number < 1 || number > 9 {
+         if !(1..=9).contains(&number) {
             return Err(SudokuError::InvalidNumber);
         }
 
