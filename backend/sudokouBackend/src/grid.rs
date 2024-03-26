@@ -1,4 +1,7 @@
-#[derive(Clone, Debug)]
+use serde::{Serialize, Deserialize};
+use serde_json;
+
+#[derive(Clone, Debug, Serialize, Deserialize,  PartialEq)]
 pub struct SudokuGrid {
     data: [[Option<u8>; 9]; 9], // 9x9 grid to hold Sudoku numbers
 }
@@ -82,4 +85,23 @@ mod tests {
         assert_eq!(sudoku.get_number(1, 1).unwrap(), None);
         assert!(sudoku.get_number(9, 9).is_err());
     }
+
+    #[test]
+    fn test_serialization_deserialization() {
+        let mut sudoku = SudokuGrid::new();
+        sudoku.set_number(0, 0, 5).unwrap();
+        sudoku.set_number(0, 2, 8).unwrap();
+        sudoku.set_number(2, 0, 3).unwrap();
+        sudoku.set_number(8, 8, 1).unwrap();
+
+        // Serialize the SudokuGrid to JSON
+        let serialized = serde_json::to_string(&sudoku).unwrap();
+
+        // Deserialize the JSON back into a SudokuGrid
+        let deserialized: SudokuGrid = serde_json::from_str(&serialized).unwrap();
+
+        // Assert that the deserialized grid is equal to the original grid
+        assert_eq!(deserialized, sudoku);
+    }
 }
+
