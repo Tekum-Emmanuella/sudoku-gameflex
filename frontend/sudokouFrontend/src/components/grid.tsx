@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import './grid.css';
 
 const Board: React.FC = () => {
@@ -167,14 +167,24 @@ const Board: React.FC = () => {
   
 
   return (
-    <div className="grid-container">
+    
+    <div className="board-container">
+        <div className="number-buttons">
+          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(num => (
+            <button key={num} onClick={() => handleNumberInsert(num)}>
+              {num}
+            </button>
+          ))}
+          <button className="erase-button" onClick={handleEraseNumber}>Erase</button>
+        </div>
       <div className="retry-section">
         <span className="retry-count">Retries left: {retries}</span>
         <button className="retry-button" onClick={handleRetry} disabled={retries === 0}>
          Retry
         </button>
       </div>
-      <table>
+      <div className="board-grid"> 
+      <table className="sudoku-grid">
         <tbody>
           {grid.map((row, rowIndex) => (
             <tr key={rowIndex}>
@@ -192,18 +202,11 @@ const Board: React.FC = () => {
               ))}
             </tr>
           ))}
+          
         </tbody>
       </table>
-      <div>
-        <div className="number-buttons">
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9].map(num => (
-            <button key={num} onClick={() => handleNumberInsert(num)}>
-              {num}
-            </button>
-          ))}
-          <button onClick={handleEraseNumber}>Erase</button>
-        </div>
       </div>
+      
     </div>
   );
 };
