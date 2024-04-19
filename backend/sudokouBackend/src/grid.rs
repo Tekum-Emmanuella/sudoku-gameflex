@@ -112,20 +112,47 @@ mod tests {
     use super::*;
 
     #[test]
-    fn test_generate_easy_grid() {
+    fn test_set_number() {
+        let mut sudoku = SudokuGrid::new();
+        assert!(sudoku.set_number(0, 0, 5).is_ok());
+        assert!(sudoku.set_number(0, 2, 8).is_ok());
+        assert!(sudoku.set_number(2, 0, 3).is_ok());
+        assert!(sudoku.set_number(8, 8, 1).is_ok());
+        assert!(sudoku.set_number(9, 9, 9).is_err());
+        assert!(sudoku.set_number(0, 0, 0).is_err());
+    }
+
+    #[test]
+    fn test_get_number() {
+        let mut sudoku = SudokuGrid::new();
+        sudoku.set_number(0, 0, 5).unwrap();
+        sudoku.set_number(0, 2, 8).unwrap();
+        sudoku.set_number(2, 0, 3).unwrap();
+        sudoku.set_number(8, 8, 1).unwrap();
+
+        assert_eq!(sudoku.get_number(0, 0).unwrap(), Some(5));
+        assert_eq!(sudoku.get_number(0, 2).unwrap(), Some(8));
+        assert_eq!(sudoku.get_number(2, 0).unwrap(), Some(3));
+        assert_eq!(sudoku.get_number(8, 8).unwrap(), Some(1));
+        assert_eq!(sudoku.get_number(1, 1).unwrap(), None);
+        assert!(sudoku.get_number(9, 9).is_err());
+    }
+
+    #[test]
+    fn test_generate_grid_easy() {
         let grid = SudokuGridFactory::generate_grid(GameLevel::Easy);
-        // Add assertions based on the pre-filled easy grid or your generation algorithm
+        // Add assertions or print statements to verify the generated grid for easy difficulty
     }
 
     #[test]
-    fn test_generate_medium_grid() {
+    fn test_generate_grid_medium() {
         let grid = SudokuGridFactory::generate_grid(GameLevel::Medium);
-        // Add assertions based on the pre-filled medium grid or your generation algorithm
+        // Add assertions or print statements to verify the generated grid for medium difficulty
     }
 
     #[test]
-    fn test_generate_hard_grid() {
+    fn test_generate_grid_hard() {
         let grid = SudokuGridFactory::generate_grid(GameLevel::Hard);
-        // Add assertions based on the pre-filled hard grid or your generation algorithm
+        // Add assertions or print statements to verify the generated grid for hard difficulty
     }
 }
